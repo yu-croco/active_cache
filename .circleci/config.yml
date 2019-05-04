@@ -1,0 +1,48 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.5.0-node-browsers
+        environment:
+          BUNDLE_PATH: .bundle
+      - image: circleci/mysql:5.6
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          DB_HOST: 127.0.0.1
+          MYSQL_DATABASE: active_cache_test
+          MYSQL_PASSWORD: ''
+          MYSQL_USER: root
+    working_directory: ~/active_cache
+    steps:
+      - checkout
+      - run:
+          # ref: https://github.com/bundler/bundler/issues/6784
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          - v1-dependencies-
+      - run:
+          name: Install Dependencies
+          command: bin/setup
+      - save_cache:
+          paths:
+            - .bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - run:
+         name: Wait for db
+         command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run:
+          name: Run RSpec
+          command: |
+            mkdir /tmp/test-results
+            bin/rspec
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
