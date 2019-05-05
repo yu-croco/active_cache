@@ -1,7 +1,7 @@
 require 'logger'
 
 ActiveRecord::Base.establish_connection(
-  host:    "127.0.0.1",
+  host:    '127.0.0.1',
   adapter: 'mysql2',
   database: 'active_cache_test',
   username: 'root',

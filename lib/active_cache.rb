@@ -11,7 +11,7 @@ module ActiveCache
 
     def fetch(key, &block)
       cache.fetch(key) do
-        block.call
+        block.call if block_given?
       end
     end
 

@@ -3,11 +3,12 @@ module ActiveCache
     extend ActiveSupport::Concern
     module ClassMethods
       def find(*args)
-        return super unless activate_cache
-        ids = args.flatten.compact.uniq
-        return super if ids.size != 1 || block_given? || args.first.is_a?(Array)
+        return super if !activate_cache ||
+                        args.size != 1 ||
+                        block_given? ||
+                        !args.first.is_a?(Integer)
 
-        ActiveCache.fetch(cache_key(key_name(self.name.underscore, __method__), ids.first)) do
+        ActiveCache.fetch(cache_key(key_name(self.name.underscore, __method__), args.first)) do
           super
         end
       end
