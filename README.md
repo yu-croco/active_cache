@@ -1,8 +1,20 @@
 # ActiveCache
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/active_cache`. To experiment with that code, run `bin/console` for an interactive prompt.
+Welcome to active_cache! This RubyGem helps you to save Database access performance by caching the result of ActiveRecord object.
 
-TODO: Delete this and the text above, and describe your gem
+when you get object via ActiveRecord, the result is stored on Memcached, then the data is fetched from Memcached, insted of Database when you access the same data at second time.
+
+```ruby
+# At the first time, ActiveRecord will access to Database.
+# On this time, the result data is stored on Memcached.
+user = User.find(1)
+# => User Load (0.3ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+
+# At the second time, data is fetched from Memcached, so you can improve performance!
+user = User.find(1)
+# => ActiveRecord does not access to Database
+```
+
 
 ## Installation
 
@@ -22,13 +34,30 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+ActiveCache is deactive by default, so you need to activate  in your target Model like below.
+
+```ruby
+class User < ActiveRecord::Base
+  self.activate_cache(true)
+end
+```
+
+**Currently this RubyGem supports `find` method. Other features are comming soon, like has_many or belongs_to.**
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Then, create database as following.
+
+```
+$ mysql -u root -p
+$ CREATE DATABASE active_cache_test CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+```
+
+Then, run `bin/spec` to run the tests.
+
+You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 ## Contributing
 
