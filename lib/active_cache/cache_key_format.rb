@@ -1,7 +1,6 @@
 module ActiveCache
   module CacheKeyFormat
-    extend ActiveSupport::Concern
-    module ClassMethods
+    class << self
       def create_key(klass, method, id)
         "#{base_key}/#{klass}/#{method}/#{id}"
       end

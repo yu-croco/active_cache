@@ -1,9 +1,8 @@
 module ActiveCache
   module Config
     require 'yaml'
-    extend ActiveSupport::Concern
 
-    module ClassMethods
+    class << self
       def expired_in
         expired_config = { expires_in: nil }
         expired_config[:expires_in] = set_expired_in

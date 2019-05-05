@@ -1,6 +1,5 @@
 module ActiveCache
   class Cache
-    include Config
     class << self
       def fetch(key, &block)
         cache.fetch(key) do
@@ -26,7 +25,7 @@ module ActiveCache
 
       private
         def cache
-          @cache ||= ActiveSupport::Cache::MemCacheStore.new(expired_in)
+          @cache ||= ActiveSupport::Cache::MemCacheStore.new(Config.expired_in)
         end
     end
   end
