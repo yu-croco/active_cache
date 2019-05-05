@@ -6,9 +6,10 @@ module ActiveCache
         "#{base_key}/#{klass_name}/#{id}"
       end
 
-      def base_key
-        "active_cache"
-      end
+      private
+        def base_key
+          "active_cache"
+        end
     end
   end
 end

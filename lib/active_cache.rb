@@ -1,17 +1,19 @@
 require 'active_record'
 require 'active_cache/version'
+require 'active_cache/config'
 require 'active_cache/cache_key'
 require 'active_cache/find'
 module ActiveCache
   class Error < StandardError; end
+  include ActiveCache::Config
   class << self
     def cache
-      @cache ||= defined?(::Rails.cache) ? Rails.cache : ActiveSupport::Cache::MemCacheStore.new
+      @cache ||= ActiveSupport::Cache::MemCacheStore.new(expired_in)
     end
 
     def fetch(key, &block)
       cache.fetch(key) do
-        block.call if block_given?
+        block.call
       end
     end
 
@@ -34,6 +36,5 @@ module ActiveCache
 end
 
 class ActiveRecord::Base
-  include ActiveCache::CacheKey
   include ActiveCache::Find
 end
