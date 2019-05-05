@@ -55,6 +55,13 @@ $ mysql -u root -p
 $ CREATE DATABASE active_cache_test CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ```
 
+On development environment we use Memcached, so please download Memcached and run server by following.
+
+```
+$ brew install memcached
+$ memcached -d
+```
+
 Then, run `bin/spec` to run the tests.
 
 You can also run `bin/console` for an interactive prompt that will allow you to experiment.
