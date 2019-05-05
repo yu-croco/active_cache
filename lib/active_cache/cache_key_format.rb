@@ -1,5 +1,5 @@
 module ActiveCache
-  module CacheKey
+  module CacheKeyFormat
     extend ActiveSupport::Concern
     module ClassMethods
       def create_key(klass, method, id)

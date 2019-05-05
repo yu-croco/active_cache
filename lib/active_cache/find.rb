@@ -1,7 +1,7 @@
 module ActiveCache
   module Find
     extend ActiveSupport::Concern
-    include CacheKey
+    include CacheKeyFormat
     module ClassMethods
       def find(*args)
         return super if !activate_cache ||
