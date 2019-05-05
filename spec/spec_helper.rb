@@ -15,7 +15,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    ActiveCache.clear
+    ActiveCache::Cache.clear
   end
 
   migrations = "#{File.dirname(__FILE__)}/support/migrations"
