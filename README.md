@@ -42,7 +42,15 @@ class User < ActiveRecord::Base
 end
 ```
 
-**Currently this RubyGem supports `find` method. Other features are comming soon, like has_many or belongs_to.**
+**Currently this RubyGem supports `find` method. Other features are comming soon, I hope.**
+
+Additionally, you can configure the cache expiration to define in `app/config/active_cache.yml` like below.
+
+```yml
+expired_in 1.day
+```
+
+Default expiration is 1 hour.
 
 ## Development
 
