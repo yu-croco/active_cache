@@ -9,6 +9,8 @@ module ActiveCache
 
       def find_with_cache(*args)
         if find_with_cache?
+          ActiveCache::Loggable.stored(args.first)
+
           cache_key = CacheKeyFormat.create_key(args.first)
           ActiveCache::Cache.fetch(cache_key) do
             find(*args)
