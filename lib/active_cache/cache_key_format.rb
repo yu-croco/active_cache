@@ -1,8 +1,8 @@
 module ActiveCache
   module CacheKeyFormat
     class << self
-      def create_key(id)
-        "#{base_key}/#{id}"
+      def create_key(klass, id)
+        "#{base_key}/#{klass}/#{id}"
       end
 
       private

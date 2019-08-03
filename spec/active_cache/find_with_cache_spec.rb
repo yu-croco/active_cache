@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe ActiveCache do
   describe '.find_with_cache' do
     let!(:user){User.create(first_name: "Taro", last_name: "Yamada", age: 35)}
-    let(:cache_key){ActiveCache::CacheKeyFormat.create_key(user.id)}
+    let(:cache_key){ActiveCache::CacheKeyFormat.create_key(user.class, user.id)}
     context 'if args is INT' do
       before do
         ActiveCache::Cache.delete(cache_key)

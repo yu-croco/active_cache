@@ -12,10 +12,8 @@ module ActiveCache
 
         if find_with_cache?
           ActiveCache::Loggable.stored(id)
-          cache_key = CacheKeyFormat.create_key(id)
-          ActiveCache::Cache.fetch(cache_key) do
-            find(id)
-          end
+          cache_key = CacheKeyFormat.create_key(self.name, id)
+          ActiveCache::Cache.fetch(cache_key){ find(id) }
         end
       end
     end

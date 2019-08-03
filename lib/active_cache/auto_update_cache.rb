@@ -6,7 +6,7 @@ module ActiveCache
       after_update do |object|
         if !migration?(object)
           ActiveCache::Loggable.updated(object)
-          cache_key = CacheKeyFormat.create_key(object.id)
+          cache_key = CacheKeyFormat.create_key(object.class, object.id)
           Cache.write(cache_key, object)
         end
       end
@@ -14,7 +14,7 @@ module ActiveCache
       after_save do |object|
         if !migration?(object)
           ActiveCache::Loggable.stored(object)
-          cache_key = CacheKeyFormat.create_key(object.id)
+          cache_key = CacheKeyFormat.create_key(object.class, object.id)
           Cache.write(cache_key, object)
         end
       end
@@ -22,7 +22,7 @@ module ActiveCache
       after_destroy do |object|
         if !migration?(object)
           ActiveCache::Loggable.deleted(object.id)
-          cache_key = CacheKeyFormat.create_key(object.id)
+          cache_key = CacheKeyFormat.create_key(object.class, object.id)
           Cache.delete(cache_key)
         end
       end
