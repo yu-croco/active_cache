@@ -4,9 +4,7 @@ module ActiveCache
 
     class << self
       def expired_in
-        expired_config = { expires_in: nil }
-        expired_config[:expires_in] = set_expired_in
-        expired_config
+        @expired_config ||= { expires_in: set_expired_in }
       end
 
       private
