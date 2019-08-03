@@ -7,7 +7,7 @@ module ActiveCache
 
       private
         def base_key
-          "active_cache/#{ActiveCache::VERSION}/"
+          "active_cache/#{ActiveCache::VERSION}"
         end
     end
   end

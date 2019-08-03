@@ -7,8 +7,8 @@ module ActiveCache
         end
       end
 
-      def write(key)
-        cache.write(key)
+      def write(key, value)
+        cache.write(key, value)
       end
 
       def exist?(key)
