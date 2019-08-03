@@ -7,14 +7,15 @@ when you get object via ActiveRecord, the result is stored on Memcached, then th
 ```ruby
 # At the first time, ActiveRecord will access to Database.
 # On this time, the result data is stored on Memcached.
-user = User.find(1)
+user = User.find_with_cache(1)
 # => User Load (0.3ms)  SELECT  `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
 
 # At the second time, data is fetched from Memcached, so you can improve performance!
-user = User.find(1)
+user = User.find_with_cache(1)
 # => ActiveRecord does not access to Database
 ```
 
+In addition, cache will be updated when object is created, updated, destroyed automatically.
 
 ## Installation
 
@@ -38,11 +39,12 @@ ActiveCache is deactive by default, so you need to activate  in your target Mode
 
 ```ruby
 class User < ActiveRecord::Base
-  self.activate_cache(true)
+  # if you do not define or argument is false, feature does not work.
+  self.find_with_cache?(true)
 end
 ```
 
-**Currently this RubyGem supports `find` method. Other features are comming soon, I hope.**
+**Currently this RubyGem supports `find_with_cache (find)` method. Other features are comming soon, I hope.**
 
 Additionally, you can configure the cache expiration to define in `app/config/active_cache.yml` like below.
 
