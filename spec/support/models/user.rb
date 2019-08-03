@@ -1,3 +1,3 @@
 class User < ActiveRecord::Base
-  self.activate_cache(true)
+  find_with_cache?(true)
 end
